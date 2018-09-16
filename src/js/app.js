@@ -16,8 +16,7 @@ document.body.appendChild(renderer.domElement);
 
 window.addEventListener("resize", function() {
   var width = window.innerWidth;
-  ght;
-  var height = window.innerHei;
+  var height = window.innerHeight;
   renderer.setSize(width, height);
   camera.aspect = width / height;
   camera.updateProjectionMatrix();
@@ -29,6 +28,11 @@ var controls = new THREE.OrbitControls(camera, renderer.domElement);
 camera.position.z = 3;
 
 //Create geometry
+
+//Cube group
+var boxHolder = new THREE.Group();
+scene.add(boxHolder);
+
 //Kitten box
 var geometry = new THREE.BoxGeometry(0.55, 0.55, 0.55);
 //create the GLOBAL material, color, or image, (TEXTURE)
@@ -81,7 +85,7 @@ for (var k = 0; k < 10; k++) {
       object.position.y = j;
       object.position.z = k;
       kittenBoxes.push(object);
-      scene.add(object);
+      boxHolder.add(object);
     }
   }
 }
@@ -117,6 +121,9 @@ var skyboxTex = [
 ];
 var skyboxMat = new THREE.MeshFaceMaterial(skyboxTex);
 var skyboxObj = new THREE.Mesh(skyboxGeo, skyboxMat);
+skyboxObj.position.x = 5;
+skyboxObj.position.y = 5;
+skyboxObj.position.z = 5;
 scene.add(skyboxObj);
 
 //LIGHTS
@@ -164,6 +171,10 @@ var update = function() {
   }
 
   var time = Date.now() * 0.0025;
+  boxHolder.rotation.x -= 0.011;
+  boxHolder.rotation.y += 0.012;
+  boxHolder.rotation.z += 0.015;
+
   light1.position.y = Math.sin(time * 0.7) * 12;
   lightSphere1.position.y = Math.sin(time * 0.7) * 12;
   light1.position.x = Math.cos(time * 0.7) * 12;
